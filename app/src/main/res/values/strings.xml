@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">COVID-19-Info</string>
+    <string name="date">Дата</string>
+    <string name="summary">По миру</string>
+    <string name="country_info">По России</string>
+    <string name="city_info">По Москве</string>
+    <string name="request">ЗАПРОС</string>
+    <string name="plot">График</string>
+    <string name="date_start" >Дата начала отрезка</string>
+    <string name="date_end">Дата конца отрезка</string>
+</resources>
