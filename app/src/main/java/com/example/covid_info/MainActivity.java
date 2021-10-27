@@ -14,6 +14,8 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                  date = new StringBuilder().append(mYear).append("-").append(mMonth+1)
                         .append("-").append(mDay).toString();
                  date = String.format("%04d-%02d-%02d",mYear,mMonth+1,mDay);
-
 
                  }
         });
