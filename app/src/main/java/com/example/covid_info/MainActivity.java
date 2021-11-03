@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
     RespModelSummary summary;
     String date = "2021-11-01";
     AppCovid app;
+    Spinner countrySpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         summary = new RespModelSummary();
         app = new AppCovid();
+        countrySpinner = findViewById(R.id.spinner);
         //Получение статуса доступа к Интернет
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
         final CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -47,22 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
                  }
         });
-        //Если есть разрешение
-        if(permissionStatus == PackageManager.PERMISSION_GRANTED){
-            reqSummary();
-            reqCountryInfo("Russia");
-            reqCityInfo("Moscow");
-
-        }else{//Если нет разерешения
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET},1);
-        }
 
         Button reqButton = (Button) findViewById(R.id.button_request);
         reqButton.setOnClickListener( new Button.OnClickListener(){
           @Override
           public void onClick(View view) {
               reqSummary();
-              reqCountryInfo("Russia");
+              String cCode = "Russia";
+              if(countrySpinner.getCount()>0) {
+                  cCode = countrySpinner.getSelectedItem().toString();
+              }
+              reqCountryInfo(cCode);
               reqCityInfo("Moscow");
           }
          }
@@ -76,6 +76,37 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(I);
             }
         });
+        //Загрузка списка стран
+        app.getApi().getCountries().enqueue(new Callback<RespModelCountries>() {
+            @Override
+            public void onResponse(Call<RespModelCountries> call, Response<RespModelCountries> response) {
+                List<String> countries = response.body().getCountries();
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                        R.layout.support_simple_spinner_dropdown_item,countries);
+                countrySpinner.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<RespModelCountries> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Ошибка соединения", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //Если есть разрешение
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED){
+            reqSummary();
+            String cCode = "Russia";
+            if(countrySpinner.getCount()>0) {
+                cCode = countrySpinner.getSelectedItem().toString();
+            }
+            reqCountryInfo(cCode);
+            reqCityInfo("Moscow");
+
+        }else{//Если нет разерешения
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET},1);
+        }
+
     }
 
     private void reqSummary() {
