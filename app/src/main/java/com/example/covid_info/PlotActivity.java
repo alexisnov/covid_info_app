@@ -43,6 +43,7 @@ public class PlotActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private int res=0;
     int daysN=0;
+    View lotieAnim;
     ArrayList<Entry> values;//Массив координат
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class PlotActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         values = new ArrayList<>();
+        lotieAnim = findViewById(R.id.animationView);
+        lotieAnim.setVisibility(View.INVISIBLE);
         plotBtn.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -62,6 +65,7 @@ public class PlotActivity extends AppCompatActivity {
                 values.clear();
                 daysN=0;
                 progressBar.setVisibility(View.VISIBLE);
+                lotieAnim.setVisibility(View.VISIBLE);
                 //values.add(new Entry(1, 50));
                 //values.add(new Entry(2, 100));
                 //Прочесть граничные даты
@@ -143,6 +147,7 @@ public class PlotActivity extends AppCompatActivity {
                         //Команда на перерисовку
                         mChart.invalidate();
                         progressBar.setVisibility(View.INVISIBLE);
+                        lotieAnim.setVisibility(View.INVISIBLE);
                     }
                 }catch (Exception e){
                     Toast.makeText(PlotActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
