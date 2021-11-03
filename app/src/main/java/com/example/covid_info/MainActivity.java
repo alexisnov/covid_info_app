@@ -5,7 +5,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +18,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,20 +82,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Загрузка списка стран
-        app.getApi().getCountries().enqueue(new Callback<RespModelCountries>() {
-            @Override
-            public void onResponse(Call<RespModelCountries> call, Response<RespModelCountries> response) {
-                List<String> countries = response.body().getCountries();
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-                        R.layout.support_simple_spinner_dropdown_item,countries);
-                countrySpinner.setAdapter(adapter);
-            }
+        //Доступ к настройкам
+        SharedPreferences prefs = getSharedPreferences("covid_app", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
+        Set<String> set = prefs.getStringSet("countries",null); //список стран из настроек
+        if(set==null) {//Нет сохранённых данных - запрос в Интернет
+            app.getApi().getCountries().enqueue(new Callback<RespModelCountries>() {
+                @Override
+                public void onResponse(Call<RespModelCountries> call, Response<RespModelCountries> response) {
+                    List<String> countries = response.body().getCountries();
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                            R.layout.support_simple_spinner_dropdown_item, countries);
+                    countrySpinner.setAdapter(adapter);
+                    //Запоминаем список в настройках
+                    Set<String> set = new HashSet<String>();
+                    set.addAll(countries);
+                    editor.putStringSet("countries",set);
+                    editor.commit();
+                }
 
-            @Override
-            public void onFailure(Call<RespModelCountries> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Ошибка соединения", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<RespModelCountries> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Ошибка соединения", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {//Загрузка из настроек
+            List<String> countries = new ArrayList<>();
+            countries.addAll(set);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                    R.layout.support_simple_spinner_dropdown_item, countries);
+            countrySpinner.setAdapter(adapter);
+        }
 
 
         //Если есть разрешение

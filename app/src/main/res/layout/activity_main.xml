@@ -27,7 +27,7 @@
 
         <CalendarView
             android:id="@+id/calendarView"
-            style="@android:style/Widget.DeviceDefault.CalendarView"
+            style="@android:style/Widget.Material.CalendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxDate="1/1/2025"
