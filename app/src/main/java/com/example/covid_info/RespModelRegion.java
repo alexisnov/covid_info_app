@@ -1,5 +1,6 @@
 package com.example.covid_info;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,12 +11,22 @@ public class RespModelRegion {
     JsonArray regions;
 
     public String getConfirmed(){
-        JsonObject region = regions.get(0).getAsJsonObject();
-        return region.get("confirmed").getAsString();
+        int N=0;
+        for (JsonElement region:
+             regions) {
+            JsonObject r = region.getAsJsonObject();
+            N += r.get("confirmed").getAsInt();
+        }
+        return String.valueOf(N);
     }
     public String getConfirmedDif(){
-        JsonObject region = regions.get(0).getAsJsonObject();
-        return region.get("confirmed_diff").getAsString();
+        int N=0;
+        for (JsonElement region:
+                regions) {
+            JsonObject r = region.getAsJsonObject();
+            N += r.get("confirmed_diff").getAsInt();
+        }
+        return String.valueOf(N);
     }
 
     public JsonArray getRegions(){

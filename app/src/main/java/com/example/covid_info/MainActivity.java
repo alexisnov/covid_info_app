@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     RespModelSummary summary;
-    String date = "2020-06-01";
+    String date = "2021-11-01";
     AppCovid app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

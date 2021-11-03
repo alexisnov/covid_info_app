@@ -14,8 +14,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView"
@@ -30,6 +32,24 @@
             android:layout_height="wrap_content"
             android:maxDate="1/1/2025"
             android:minDate="03/01/2020" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="105dp"
+                android:layout_height="39dp"
+                android:text="Страна" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="309dp"
+                android:layout_height="match_parent"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,7 +127,7 @@
             android:layout_height="wrap_content"
             android:text="@string/plot" />
 
-        
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
