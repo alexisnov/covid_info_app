@@ -6,6 +6,6 @@
     <string name="city_info">По Москве</string>
     <string name="request">ЗАПРОС</string>
     <string name="plot">График</string>
-    <string name="date_start" >Дата начала отрезка</string>
+    <string name="date_start">Дата начала отрезка</string>
     <string name="date_end">Дата конца отрезка</string>
 </resources>

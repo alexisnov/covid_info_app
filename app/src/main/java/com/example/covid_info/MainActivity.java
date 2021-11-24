@@ -14,6 +14,9 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
                     Intent I = new Intent(MainActivity.this,
                             PlotActivity.class);
                     startActivity(I);
+            }
+        });
+        Button cListButton = (Button)findViewById(R.id.buttonList);
+        cListButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent I = new Intent(MainActivity.this,
+                        CountriesListActivity.class);
+                ArrayList<String> names = null;
+                I.putExtra("names", names);
+                ArrayList<Integer> numbers = null;
+                I.putExtra("numbers",numbers);
+                startActivity(I);
             }
         });
     }
