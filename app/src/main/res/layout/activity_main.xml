@@ -32,6 +32,11 @@
                 android:maxDate="1/1/2025"
                 android:minDate="03/01/2020" />
 
+            <Spinner
+                android:id="@+id/countrySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
