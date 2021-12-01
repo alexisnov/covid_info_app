@@ -1,6 +1,8 @@
 package com.example.covid_info;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CountriesListActivity extends AppCompatActivity {
-
+    RecyclerView countriesList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,16 @@ public class CountriesListActivity extends AppCompatActivity {
         Set<String> setCodes = prefs.getStringSet("codes",null); //список стран из настроек
         //Загрузка из настроек
         List<String> codes = new ArrayList<>();
-
+        codes.addAll(setCodes);
+        List<Integer> numbers = new ArrayList<>();
+        for (String a:
+             codes) {
+            numbers.add(Integer.parseInt("0"));
+        }
+        countriesList = (RecyclerView) findViewById(R.id.recyclerViewCountries);
+        countriesList.setLayoutManager(new GridLayoutManager(this,3));
+        ListRecyclerViewAdapter adapter1 = new ListRecyclerViewAdapter(this,countries,codes,numbers);
+        countriesList.setAdapter(adapter1);
 
     }
 }

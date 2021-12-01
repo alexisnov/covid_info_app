@@ -16,14 +16,16 @@ import java.util.List;
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder> {
     private List<String> mDataNames; //Названия стран
     private List<Integer> mDataInts;//Цифры
+    private List<String> mDataCodes;//Коды стран
 
     private LayoutInflater mInflater;
     //private ItemClickListener itemClickListener;
 
-    ListRecyclerViewAdapter(Context context, List<String> Names, List<Integer> Numbers){
+    ListRecyclerViewAdapter(Context context, List<String> Names,List<String> Codes, List<Integer> Numbers){
         this.mInflater = LayoutInflater.from(context);
         this.mDataNames = Names;
         this.mDataInts = Numbers;
+        this.mDataCodes = Codes;
     }
     @NonNull
     @Override
@@ -37,8 +39,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     public void onBindViewHolder(@NonNull ListRecyclerViewAdapter.ViewHolder holder, int position) {
         String name = mDataNames.get(position);
         Integer number = mDataInts.get(position);
+        String code = mDataCodes.get(position);
         holder.name.setText(name);
-        holder.number.setText(number);
+        holder.number.setText(code);
 
     }
 
